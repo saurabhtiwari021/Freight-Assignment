@@ -1,0 +1,8 @@
+{
+  "labeled_rows_scored": 21,
+  "verdict_accuracy": 1.0,
+  "citation_accuracy_on_justified": 1.0,
+  "justified_rows_in_output": 3,
+  "fabricated_justifications": 0,
+  "unexplained_rows_have_blank_note_id": true
+}
