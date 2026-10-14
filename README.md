@@ -1,8 +1,8 @@
-# Costwatch — Evidence-Grounded Shipping Cost Anomaly Assistant
+# Costwatch : Evidence-Grounded Shipping Cost Anomaly Assistant
 
 **Author:** Saurabh Tiwari  
 **Background:** B.Tech Computer Science & Engineering, KIIT University (Class of 2027)  
-**Project context:** Software Engineer Intern — AI & Data case study
+**Project context:** Software Engineer Intern, AI & Data case study
 
 > I approached this problem with one principle: **detect unusual cost movements with transparent calculations, but explain them only when the supplied evidence supports the explanation.** If no context note passes the verification checks, Costwatch reports the rise as *unexplained* and leaves it for human review rather than guessing.
 
@@ -26,7 +26,7 @@ The core verdict path is deterministic. Retrieval helps order candidate notes, b
 
 ### Windows PowerShell
 
-Run these commands from the project root—the directory containing `requirements.txt` and the `costwatch`, `data`, `eval`, `reports` and `tests` folders.
+Run these commands from the project root the directory containing `requirements.txt` and the `costwatch`, `data`, `eval`, `reports` and `tests` folders.
 
 ```powershell
 py -m venv .venv
@@ -81,7 +81,7 @@ The URL should be the endpoint base; Costwatch appends `/chat/completions`. The 
 
 For a meaningful estimated cost with a paid endpoint, set `COSTWATCH_PRICE_IN_PER_M` and `COSTWATCH_PRICE_OUT_PER_M` to that provider's current prices per million input/output tokens. If those variables are omitted, the ledger defaults to zero prices, so `estimated_cost` would not be a valid estimate for a paid call. Do not commit API keys or secret `.env` files.
 
-For LLM-polished runs, compare all columns except explanation wording with:
+For LLM polished runs, compare all columns except explanation wording with:
 
 ```bash
 python eval/repro_check.py --llm --exclude-reason
@@ -112,7 +112,7 @@ Raw context notes --> route filter --> TF-IDF ranking --> 4 verification checks
                                            CSV + reason + note ID
 ```
 
-### 1. Weekly metric — `costwatch/metrics.py`
+### 1. Weekly metric `costwatch/metrics.py`
 
 Shipments are grouped by route and Monday-starting week. The metric is:
 
@@ -120,12 +120,12 @@ Shipments are grouped by route and Monday-starting week. The metric is:
 
 This is a ratio of totals, not an average of shipment-level ratios. Shipment inputs with missing or non-positive tonnes, distance or freight cost are rejected.
 
-### 2. Comparison baselines — `costwatch/metrics.py`
+### 2. Comparison baselines `costwatch/metrics.py`
 
 - **Own history:** mean of the previous eight weekly route values, using only weeks strictly before the current week. If fewer than eight weeks are available, the available prior weeks are used.
 - **Similar routes:** mean of the other routes with the same `route_type` in the same week. The current route is excluded from its peer mean.
 
-### 3. Candidate rule — `costwatch/flagging.py`
+### 3. Candidate rule `costwatch/flagging.py`
 
 A route-week must be rising versus its own history, and it becomes a candidate when either condition is met:
 
@@ -134,13 +134,13 @@ A route-week must be rising versus its own history, and it becomes a candidate w
 
 These thresholds are configurable in `costwatch/config.py`. They are choices for this implementation, not thresholds supplied by the brief. Their sensitivity is examined in `reports/sensitivity.json`.
 
-### 4. Note retrieval — `costwatch/retrieval.py`
+### 4. Note retrieval `costwatch/retrieval.py`
 
 The default retriever uses an in-memory TF-IDF matrix with cosine similarity. Notes are first hard-filtered to the route or `All Routes`, then ranked by relevance. An optional MiniLM sentence-embedding retriever implements the same interface.
 
 **Retrieval determines order, not truth.** A high similarity score cannot by itself justify an anomaly. The verdict remains the same even if the note ranking changes, provided the note facts and verification rules do not change.
 
-### 5. Evidence verification — `costwatch/verdict.py`
+### 5. Evidence verification `costwatch/verdict.py`
 
 A note can justify a route-week only if it passes all four checks:
 
@@ -151,11 +151,11 @@ A note can justify a route-week only if it passes all four checks:
 
 When no note passes every check, the row remains `Yes` (flagged for human review) and `matched_note_id` stays blank. The reason text explains why nearby notes were rejected when relevant.
 
-### 6. Structured context — `data/notes_structured.json`
+### 6. Structured context `data/notes_structured.json`
 
 The ten raw notes in `data/context_notes.csv` are represented by hand-reviewed fields for scope, effective window, effect, magnitude and a short summary. `costwatch/notes.py` checks note IDs, scope and start dates against the raw CSV at load time and raises an error if they drift. Where a raw note does not specify a complete date range, the assumed window and its rationale are recorded in the structured file.
 
-### 7. Optional LLM wording — `costwatch/llm.py`
+### 7. Optional LLM wording `costwatch/llm.py`
 
 The optional model receives a reason that already exists and may rephrase it. It is not asked to calculate the metric, retrieve evidence, or choose a verdict. The default submission run is deterministic and makes no LLM calls. Token usage and estimated cost are written to `reports/llm_usage.json` when the optional mode is enabled.
 
@@ -196,9 +196,9 @@ One pattern worth investigating is the gradual increase on Mumbai–Pune: cost p
 
 ### Automated checks
 
-The test suite covers metric calculations, Monday week boundaries, ratio-of-sums aggregation, no-look-ahead historical baselines, peer-route exclusion, output format, note-window checks, wrong-route notes, notes that state costs were unaffected, magnitude mismatches, and adversarial checks against fabricated justifications.
+The test suite covers metric calculations, Monday week boundaries, ratio of sums aggregation, no look ahead historical baselines, peer route exclusion, output format, note-window checks, wrong-route notes, notes that state costs were unaffected, magnitude mismatches, and adversarial checks against fabricated justifications.
 
-The independent metric test re-computes weekly values and baselines with a separate, simple implementation and compares the results across all 728 route-weeks.
+The independent metric test re computes weekly values and baselines with a separate, simple implementation and compares the results across all 728 route-weeks.
 
 ### Latest local verification
 
@@ -261,4 +261,4 @@ costwatch/
 
 ## About the author
 
-I'm **Saurabh Tiwari**, a Computer Science and Engineering student at KIIT University (Class of 2027). I used this case study to focus on practical data engineering fundamentals—clear metric definitions, testable rules, reproducible runs, and careful handling of AI-generated explanations. My main design choice in Costwatch is to keep numerical decisions and the evidence gate inspectable, so an unexplained anomaly is surfaced honestly instead of being assigned a plausible-sounding cause.
+I'm **Saurabh Tiwari**, a Computer Science and Engineering student at KIIT University (Class of 2027). I used this case study to focus on practical data engineering fundamentals clear metric definitions, testable rules, reproducible runs, and careful handling of AI-generated explanations. My main design choice in Costwatch is to keep numerical decisions and the evidence gate inspectable, so an unexplained anomaly is surfaced honestly instead of being assigned a plausible-sounding cause.
