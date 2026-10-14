@@ -1,0 +1,4 @@
+__pycache__/
+.pytest_cache/
+reports/.llm_cache.json
+reports/repro_run*.csv
