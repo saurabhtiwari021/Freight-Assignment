@@ -1,0 +1,23 @@
+route,week_of,expected,expected_note,why
+Delhi-Jaipur,2024-11-11,unexplained,,only note for this route is N007 (May 2024; roads improved) - wrong date and not a cost driver
+Delhi-Jaipur,2024-11-18,unexplained,,same as above
+Ahmedabad-Mumbai,2025-01-20,justified,N002,festival-week surcharge note dated this exact week
+Chennai-Bangalore,2025-02-24,justified,N001,flood window 24 Feb-8 Mar starts this week
+Chennai-Bangalore,2025-03-03,justified,N001,week 3-9 Mar overlaps the flood window
+Chennai-Bangalore,2025-03-10,unexplained,,week starts after the flood window ended 8 Mar; N009 says conditions normal
+Chennai-Bangalore,2025-03-17,unexplained,,N009 dated this week says back to normal; N001 window long over
+Mumbai-Pune,2025-09-15,unexplained,,nearest note N006 says demand stable / no disruption (this is the sample file's own example)
+Mumbai-Pune,2025-11-17,unexplained,,no cost-raising note for this route in 2025 H2 (N010 says no rate change)
+Mumbai-Pune,2025-12-08,unexplained,,same as above
+Mumbai-Delhi,2024-07-29,not_flagged,,N005 week: costs not significantly affected and data is normal
+Delhi-Jaipur,2024-05-20,not_flagged,,N007 week: data normal
+Kolkata-Bhubaneswar,2025-06-09,not_flagged,,N008 week: data normal
+Mumbai-Pune,2025-09-22,not_flagged,,N006 week: no rise
+Chennai-Bangalore,2025-05-05,not_flagged,,diesel-note week but this route shows no rise
+Delhi-Chennai,2025-03-10,not_flagged,,control: no flood effect on other routes
+Delhi-Chennai,2024-11-11,not_flagged,,control: same week as the Delhi-Jaipur anomaly
+Mumbai-Delhi,2025-10-27,not_flagged,,N010 week: no rise
+Ahmedabad-Mumbai,2025-06-09,not_flagged,,control week
+Kolkata-Bhubaneswar,2024-03-11,not_flagged,,N004 week: toll plaza outside dataset
+Mumbai-Delhi,2025-05-12,ambiguous,,"+11.6% in diesel window; N003 cites 5-7% so only part is explained - reported, not scored"
+Mumbai-Pune,2025-06-23,unexplained,,N003 (diesel) started 5 May with no stated end; 7 weeks later it is not shown to still apply
